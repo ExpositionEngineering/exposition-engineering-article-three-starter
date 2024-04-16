@@ -2,6 +2,10 @@
 
 ## Honor Code
 
+TODO: Add the Honor Code pledge here.
+
+TODO: Make sure to add your name as the author of the article.
+
 **Author**: Add Your Name Here
 
 ## Introduction
