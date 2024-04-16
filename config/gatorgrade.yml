@@ -1,0 +1,105 @@
+setup: |
+  echo "🐊 Attempt to install exposition engineering tools"
+  echo "🐊 Using pipx to perform program installation"
+  echo "🐊 Will not re-install if already installed"
+  pipx install pymarkdownlnt
+---
+
+# Checks on Files {{{
+
+# perform checks on a file
+- writing/article.md:
+    - description: Ensure that the article.md file exists in the writing/ directory
+      check: ConfirmFileExists
+    - description: Complete all TODOs, remove the TODO markers, and rewrite comments for the reflection
+      check: MatchFileFragment
+      options:
+        fragment: TODO
+        count: 0
+        exact: true
+    - description: Delete the 'Add Your Name Here' prompt in the reflection file
+      check: MatchFileFragment
+      options:
+        fragment: "Add Your Name Here"
+        count: 0
+        exact: true
+    - description: Retype the every word in the Honor Code pledge in reflection.md
+      check: MatchFileFragment
+      options:
+        fragment: "I adhered to the Allegheny College Honor Code while completing this project."
+        count: 1
+        exact: true
+    - description: Confirm that the markdown file containing the article has the correct number of headers
+      check: CountMarkdownTags
+      options:
+        tag: heading
+        count: 9
+        exact: false
+    - description: Confirm that the markdown file containing the article has a minimum number of paragraphs
+      check: CountMarkdownTags
+      options:
+        tag: paragraph
+        count: 5
+        exact: false
+    - description: Confirm that the markdown file containing the article has a minimum number of lists
+      check: CountMarkdownTags
+      options:
+        tag: list 
+        count: 1
+        exact: false
+    - description: Confirm that the markdown file containing the article has the introduction section
+      check: MatchFileFragment
+      options:
+        fragment: "## Introduction"
+        count: 1
+        exact: true
+    - description: Confirm that the markdown file containing the article has the conclusion section
+      check: MatchFileFragment
+      options:
+        fragment: "## Conclusion"
+        count: 1
+        exact: true
+    - description: Confirm that the markdown file containing the article has the references section
+      check: MatchFileFragment
+      options:
+        fragment: "## References"
+        count: 1
+        exact: true
+    - description: Confirm that the markdown file containing the article has the tool statement section
+      check: MatchFileFragment
+      options:
+        fragment: "## Tool Statement"
+        count: 1
+        exact: true
+    - description: Confirm that the markdown file containing the article has at least five references 
+      check: MatchFileFragment
+      options:
+        fragment: "[^"
+        count: 5
+        exact: false
+    - description: Confirm that the markdown file containing the article has a credibility statement for every reference 
+      check: MatchFileFragment
+      options:
+        fragment: "**Credibility"
+        count: 5
+        exact: false
+
+# }}}
+
+# Check Output from Linters {{{
+
+# run a check
+- description: Confirm that the article file(s) passes the linting checks run by pymarkdownlnt
+  command: "pymarkdown --config .pymarkdown.cfg scan writing/article.md"
+
+# }}}
+
+# Commits {{{
+
+# count number of commits in the GitHub repository
+- description: Have at least a specific minimum of commits in repository
+  check: CountCommits
+  options:
+    count: 10
+
+# }}}
